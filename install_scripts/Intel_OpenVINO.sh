@@ -33,6 +33,15 @@ cd ..
 rm l_openvino_toolkit*.tgz
 rm -r l_openvino_toolkit_p_*
 
+#TODO
+cd $INSTALL_PREFIX/intel/install_dependencies
+sudo -E ./install_openvino_dependencies.sh
+
+# Configure Model Optimizer
+echo "Configuring Model Optimizer"
+cd $INSTALL_PREFIX/intel/openvino/deployment_tools/model_optimizer/install_prerequisites
+./install_prerequisites.sh
+
 echo "TODO: Instruct FIX PATH additions"
 
 echo "Add the following to your shell config:"
@@ -50,3 +59,7 @@ HDDL_INSTALL_DIR=$INTEL_OPENVINO_DIR/deployment_tools/inference_engine/external/
 IE_PLUGINS_PATH=$INTEL_OPENVINO_DIR/deployment_tools/inference_engine/lib/intel64
 echo "export LD_LIBRARY_PATH=$HDDL_INSTALL_DIR/lib:$INTEL_OPENVINO_DIR/deployment_tools/inference_engine/external/gna/lib:$INTEL_OPENVINO_DIR/deployment_tools/inference_engine/external/mkltiny_lnx/lib:$INTEL_OPENVINO_DIR/deployment_tools/inference_engine/external/tbb/lib:$IE_PLUGINS_PATH:\$LD_LIBRARY_PATH
 echo "export PYTHONPATH=$INTEL_OPENVINO_DIR/python/python$PYTHON_VERSION:\$PYTHONPATH"
+
+echo "Or add source /usr/local/intel/openvino/bin/setupvars.sh to bashrc"
+
+

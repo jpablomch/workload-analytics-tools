@@ -9,7 +9,10 @@ else
   exit 1
 fi
 
-apt-get install -y libssl-dev
+apt-get install -y libssl-dev build-essential
+
+export CC=gcc-8
+export CXX=g++-8
 
 wget -c "https://cmake.org/files/v3.16/cmake-3.16.0.tar.gz"
 tar -xf cmake-3.16.0.tar.gz && cd cmake-3.16.0

@@ -10,13 +10,12 @@ else
   exit 1
 fi
 
-apt install -y nasm meson
+apt install -y nasm meson yasm
 apt-get update -qq && apt-get -y install \
   autoconf \
   automake \
   build-essential \
-#  cmake \
-  git-core \
+  git \
   libass-dev \
   libfreetype6-dev \
   libsdl2-dev \
@@ -30,7 +29,11 @@ apt-get update -qq && apt-get -y install \
   pkg-config \
   texinfo \
   wget \
-  zlib1g-dev
+  zlib1g-dev \
+  gnutls-bin \
+  libgnutls28-dev
+
+  #  cmake \
 
 export CC=gcc-8
 export CXX=g++-8
@@ -60,6 +63,9 @@ git checkout release/4.2
 git am ../SVT-HEVC/ffmpeg_plugin/0001*.patch
 #		        --enable-libx265 \
                 # Replacing libx265 for svt-hevc
+#                --enable-libsvthevc \
+
+apt-get install -y libx265-dev libx264-dev libnuma-dev nasm yasm libvpx-dev libfdk-aac-dev libmp3lame-dev
 ./configure --prefix=$INSTALL_PREFIX \
                 --enable-shared --disable-stripping \
                 --disable-decoder=libschroedinger \
@@ -70,10 +76,14 @@ git am ../SVT-HEVC/ffmpeg_plugin/0001*.patch
                 --enable-gnutls \
                 --enable-libsvthevc \
                 $(echo $CMDS) && \
-make -j${cores} && make install && touch $BUILD_DIR/ffmpeg.done \
+make -j${cores} && make install
+touch ffmpeg.done \
         || { echo 'Installing ffmpeg failed!' ; exit 1; }
 echo "Done installing ffmpeg 4.2"
 
+apt-get install -y libeigen3-dev libgflags-dev libgtest-dev libgoogle-glog-dev libatlas-base-dev libsuitesparse-dev \
+      libgflags-dev libopenblas-dev \
+      liblapacke-dev
 
 #### OpenCV
 cd $BUILD_DIR
@@ -112,7 +122,7 @@ cmake -D CMAKE_BUILD_TYPE=Release \
               -D WITH_WEBP=OFF \
               -D WITH_OPENMP=ON \
 	      $(echo $CMDS) -DCMAKE_PREFIX_PATH=$(echo $PY_EXTRA_CMDS) ../opencv
-        make install -j$cores && touch $BUILD_DIR/opencv.done \
+        make install -j$cores && touch opencv.done \
             || { echo 'Installing OpenCV failed!' ; exit 1; }
     echo "Done installing OpenCV 4.2.0"
 

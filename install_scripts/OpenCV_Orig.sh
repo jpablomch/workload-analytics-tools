@@ -86,7 +86,8 @@ apt-get install -y libeigen3-dev libgflags-dev libgtest-dev libgoogle-glog-dev l
       liblapacke-dev
 
 #### OpenCV
-cd $BUILD_DIR
+mkdir -p $BUILD_DIR/opencv_build
+cd $BUILD_DIR/opencv_build
 rm -rf opencv opencv_contrib ceres-solver
 #git clone https://github.com/jpablomch/opencv && \
 git clone https://github.com/opencv/opencv && \
